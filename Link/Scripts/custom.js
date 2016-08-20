@@ -41,3 +41,8 @@ $("#loz-form").on('click', '#send-form', function () {
     $('#done').attr('checked', true);
     $("form")[0].submit();
 });
+
+$("#header").on('click', '#toggle-show', function () {
+    $("#show-text").toggleClass("hidden");
+    $("#show-visual").toggleClass("hidden");
+});

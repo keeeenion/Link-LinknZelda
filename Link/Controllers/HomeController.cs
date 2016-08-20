@@ -105,11 +105,8 @@ namespace Link.Controllers {
 		}
 
 		public ActionResult Display() {
-			/*return View(DeserializeXml(WebRequest.Create("http://localhost:56642/api/display")
-				.GetResponse().GetResponseStream().ToString(), typeof(CombinedWebsite)));*/
-
 			List<CombinedWebsite> output = JsonConvert.DeserializeObject<List<CombinedWebsite>>(
-					new WebClient().DownloadString("http://localhost:56642/api/display")
+					new WebClient().DownloadString("http://zelda-linknzelda.azurewebsites.netapi/display")
 				);
 			return View(output);
 		}

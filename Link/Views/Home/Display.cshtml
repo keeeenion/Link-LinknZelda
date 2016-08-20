@@ -4,11 +4,18 @@
     ViewBag.Title = "Kuva";
 }
 
-<h1>TOP 10</h1>
-<input id="show-visual" class="btn btn-rotated btn-danger btn-lg" value="VISUALISEERI" />
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
 
+<div id="header">
+    <h1>TOP 10</h1>
+    <input id="toggle-show" class="btn btn-rotated btn-danger btn-lg" value="vaheta vaateid" />
+</div>
+
+<!-- text -->
 <section id="show-text">
-    @{ var cnt = 10;  if (Model.Count() < 10) { cnt = Model.Count(); } }
+    @{ var cnt = 10; if (Model.Count() < 10) { cnt = Model.Count(); } }
     @foreach (var site in Model.OrderByDescending(o => o.Score).Take(cnt)) {
 
         String host = new Uri(site.URL).Host.ToString().ToUpper();
@@ -40,7 +47,7 @@
                     </thead>
 
                     <tbody>
-                        @for (var i=0; i <= site.Title.Count(); i++) {
+                        @for (var i = 0; i <= site.Title.Count(); i++) {
                             <tr>
                                 <td>
                                     @try { @site.Title[i] } catch { }
@@ -55,10 +62,8 @@
                                     @try { @site.Owner[i] } catch { }
                                 </td>
                             </tr>
-                        }
+}
                     </tbody>
-
-
 
                 </table>
             </div>
@@ -67,59 +72,58 @@
     }
 </section>
 
-<section id="show-visual">
-    <script>
-        $(function () {
-            $('#show-visual').highcharts({
-                chart: {
-                    type: 'pie',
-                    options3d: {
-                        enabled: true,
-                        alpha: 45,
-                        beta: 0
-                    }
-                },
-                title: {
-                    text: 'Browser market shares at a specific website, 2014'
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        depth: 35,
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.name}'
-                        }
-                    }
-                },
-                series: [{
-                    type: 'pie',
-                    name: 'Browser share',
-                    data: [
-                        ['Firefox', 45.0],
-                        ['IE', 26.8],
-                        {
-                            name: 'Chrome',
-                            y: 12.8,
-                            sliced: true,
-                            selected: true
-                        },
-                        ['Safari', 8.5],
-                        ['Opera', 6.2],
-                        ['Others', 0.7]
-                    ]
-                }]
-            });
-        });
-    </script>
+<!-- visualized -->
+<section id="show-visual" class="hidden">
+    <div id="piechart" style="height: 400px"></div>
 </section>
 
-<!-- visualized -->
-
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-3d.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<!-- piecharts -->
+<script>
+    $(function () {
+        $('#piechart').highcharts({
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45,
+                    beta: 0
+                }
+            },
+            exporting: { 
+                enabled: false
+            },
+            title: {
+                text: 'Skooride top'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    depth: 55,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Top 10 protsent',
+                data: [
+                    @{ var last = Model.Last(); var total = Model.Take(cnt).Select(s => s.Score).Sum(); }
+                    @foreach (var site in Model.OrderByDescending(o => o.Score).Take(cnt)) {
+                        String host = new Uri(site.URL).Host.ToString().ToUpper();
+                        if (!site.Equals(last)) {
+                            @:['@site.URL', @(((float)site.Score / (float)total)*1000)],
+                        } else {
+                            @:['@site.URL', @(((float)site.Score / (float)total)*1000)]
+                        }
+                    }
+                ]
+            }]
+        });
+    });
+</script>
