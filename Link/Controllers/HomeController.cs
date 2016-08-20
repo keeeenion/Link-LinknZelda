@@ -106,7 +106,7 @@ namespace Link.Controllers {
 
 		public ActionResult Display() {
 			List<CombinedWebsite> output = JsonConvert.DeserializeObject<List<CombinedWebsite>>(
-					new WebClient().DownloadString("http://zelda-linknzelda.azurewebsites.netapi/display")
+					new WebClient().DownloadString("http://zelda-linknzelda.azurewebsites.net/api/display")
 				);
 			return View(output);
 		}
