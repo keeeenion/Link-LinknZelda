@@ -1,24 +1,71 @@
 ﻿body {
+	background:url(../../Img/link.jpg) no-repeat center center;
+	min-height:100%;
+	background-size:cover;
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
 
-/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
 .dl-horizontal dt {
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.container-bg {
+    background:rgba(255, 255, 255, 0.90);
+}
+
+.col-user {
+    margin: 10px;
+    padding: 10px;
+    border: solid #ffd800 1px;
+}
+
+.col-website {
+    margin: 10px;
+    padding: 10px;
+    border: solid #ff6a00 1px;
+}
+
+.field-validation-error {
+    color: #ff0000;
+}
+
+/* Display */
+.text-websites {
+
+}
+
+.text-header {
+    padding: 8px;
+    background-color: #cf4a4a;
+    width: 105%;
+    border-bottom-right-radius: 50px;
+    border-bottom: solid #f34f4f 5px;
+}
+
+.text-header h1{
+    color: #ffffff;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.text-header h3{
+    color: #ffd800;
+}
+
+.btn-rotated {
+     -moz-transform: rotate(-90.0deg);  /* FF3.5+ */
+       -o-transform: rotate(-90.0deg);  /* Opera 10.5 */
+  -webkit-transform: rotate(-90.0deg);  /* Saf3.1+, Chrome */
+             filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
+         -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+
+    margin-left: -150px;
 }

@@ -1,25 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿namespace Link.Models
+{
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.ComponentModel.DataAnnotations;
+	using System.ComponentModel.DataAnnotations.Schema;
+	using System.Data.Entity.Spatial;
 
-namespace Link.Models {
-	public class Website {
-
-		public String owner { get; set; }
-		public String title { get; set; }
-		public String desc { get; set; }
-		public String url { get; set; }
-		public String cat { get; set; }
-		public int score { get; set; }
-
-		public Website(String owner, String title, String desc, String url, String cat, int score) {
-			this.owner = owner;
-			this.title = title;
-			this.desc = desc;
-			this.url = url;
-			this.cat = cat;
-			this.score = score;
-		}
+	public enum Categories {
+		Sotsiaalmeedia,
+		Sport,
+		Huumor,
+		Uudised,
+		Otsingumootor,
+		Muu
 	}
+
+    [Table("Website")]
+    public partial class Website {
+
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public short Id { get; set; }
+		
+		[StringLength(50, ErrorMessage = "Väli ei tohi ületada 50 karakterit")]
+		[DisplayName("Omanik")]
+		public String Owner { get; set; }
+
+        [Required(ErrorMessage = "Väli ei tohi olla tühi")]
+        [StringLength(50, ErrorMessage = "Väli ei tohi ületada 50 karakterit")]
+		[DataType(DataType.Url, ErrorMessage = "Antud väli peab sisaldama URL-i")]
+		[DisplayName("URL")]
+		[Url(ErrorMessage = "Näide: http://foo.bar")]
+		public string URL { get; set; }
+		
+		[DisplayName("Kirjeldus")]
+		[MaxLength(250, ErrorMessage = "Väli ei tohi olla pikem kui 250 karakterit")]
+		public string Description { get; set; }
+
+		[Required(ErrorMessage = "Väli ei tohi olla tühi")]
+		[Range(1,10, ErrorMessage = "Skoor peab jääma 1 ja 10 vahele")]
+		[DisplayName("Skoor")]
+		public int Score { get; set; }
+
+        [Required(ErrorMessage = "Väli ei tohi olla tühi")]
+        [StringLength(50, ErrorMessage = "Väli ei tohi ületada 50 karakterit")]
+		[DisplayName("Pealkiri")]
+		public string Title { get; set; }
+
+        [Required(ErrorMessage = "Väli ei tohi olla tühi")]
+		[DisplayName("Kategooria")]
+		public Categories? Category { get; set; }
+    }
 }

@@ -1,0 +1,125 @@
+﻿@model List<Link.Models.CombinedWebsite>
+
+@{
+    ViewBag.Title = "Kuva";
+}
+
+<h1>TOP 10</h1>
+<input id="show-visual" class="btn btn-rotated btn-danger btn-lg" value="VISUALISEERI" />
+
+<section id="show-text">
+    @{ var cnt = 10;  if (Model.Count() < 10) { cnt = Model.Count(); } }
+    @foreach (var site in Model.OrderByDescending(o => o.Score).Take(cnt)) {
+
+        String host = new Uri(site.URL).Host.ToString().ToUpper();
+
+        <div class="text-websites">
+            <div class="text-header">
+                <h1><span class="glyphicon glyphicon-globe"></span> @host</h1>
+                <h3><span class="glyphicon glyphicon-stats"></span> Skoor: @site.Score</h3>
+            </div>
+
+            <div class="text-content">
+                <table class="table table-striped table-bordered">
+
+                    <thead>
+                        <tr>
+                            <th>
+                                Pealkiri
+                            </th>
+                            <th>
+                                Kirjeldus
+                            </th>
+                            <th>
+                                Kategooriad
+                            </th>
+                            <th>
+                                Omanikud
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (var i=0; i <= site.Title.Count(); i++) {
+                            <tr>
+                                <td>
+                                    @try { @site.Title[i] } catch { }
+                                </td>
+                                <td>
+                                    @try { @site.Description[i] } catch { }
+                                </td>
+                                <td>
+                                    @try { @site.Category[i] } catch { }
+                                </td>
+                                <td>
+                                    @try { @site.Owner[i] } catch { }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+
+
+                </table>
+            </div>
+        </div>
+        <br />
+    }
+</section>
+
+<section id="show-visual">
+    <script>
+        $(function () {
+            $('#show-visual').highcharts({
+                chart: {
+                    type: 'pie',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45,
+                        beta: 0
+                    }
+                },
+                title: {
+                    text: 'Browser market shares at a specific website, 2014'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        depth: 35,
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name}'
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Browser share',
+                    data: [
+                        ['Firefox', 45.0],
+                        ['IE', 26.8],
+                        {
+                            name: 'Chrome',
+                            y: 12.8,
+                            sliced: true,
+                            selected: true
+                        },
+                        ['Safari', 8.5],
+                        ['Opera', 6.2],
+                        ['Others', 0.7]
+                    ]
+                }]
+            });
+        });
+    </script>
+</section>
+
+<!-- visualized -->
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>

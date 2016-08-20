@@ -23,13 +23,6 @@ namespace Link {
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
 					  "~/Content/site.css"));
-
-			// Custom JS
-			bundles.Add(new ScriptBundle("~/bundles/custom").Include(
-					  "~/Scripts/Scripts.js"));
-
-			bundles.Add(new StyleBundle("~/Content/custom").Include(
-					  "~/Content/Style.css"));
 		}
 	}
 }

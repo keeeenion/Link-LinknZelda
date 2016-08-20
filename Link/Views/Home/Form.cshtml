@@ -1,0 +1,134 @@
+﻿@model Link.Models.Form
+
+@{
+    ViewBag.Title = "Lisa";
+}
+
+@using (Html.BeginForm("/Form", "Home", FormMethod.Post, new { @id = "loz-form" })) {
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    // USER
+    <div class="row text-center">
+
+        <div class="col-xs-4">
+            <div class="col-user">
+                <div class="form-label">
+                    @Html.LabelFor(model => model.User.FirstName)
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.User.FirstName, new { @class = "form-control", @placeholder = "Eesnimi" })
+                    @Html.ValidationMessageFor(model => model.User.FirstName)
+                </div>
+
+                <div class="form-label">
+                    @Html.LabelFor(model => model.User.SurName)
+                </div>
+
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.User.SurName, new { @class = "form-control", @placeholder = "Perekonnanimi" })
+                    @Html.ValidationMessageFor(model => model.User.SurName)
+                </div>
+
+                <div class="form-label">
+                    @Html.LabelFor(model => model.User.Birthdate)
+                </div>
+
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.User.Birthdate, new { @class = "form-control", @placeholder = "Päev/Kuu/Aasta", @readonly = "" })
+                    @Html.ValidationMessageFor(model => model.User.Birthdate)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-8 form-group">
+            <div class="col-user">
+                <h1>Staatus</h1>
+
+                <h3 style='@ViewBag.feedbackStyle'>
+                    @ViewBag.feedback
+                </h3>
+                <ul>
+                    @{  if (ViewBag.feedbackErrors != null) {
+                            foreach (var f in ViewBag.feedbackErrors) {
+                                <li>@f</li>
+                            } 
+                        }
+                    }
+                </ul>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+    // WEBSITE
+    <div id="websites" class="row">
+
+    @{
+        var count = 5;
+        if (ViewBag.count != null) {
+            count = ViewBag.count;
+        }
+    }   
+
+        @for (int i = 0; i <= count-1; i++) {
+
+            <div class="col-form col-xs-4">
+                <div class="col-website">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Website[i].Title)
+                        @Html.TextBoxFor(model => model.Website[i].Title, new { @class = "form-control", @placeholder = "Pealkiri" })
+                        @Html.ValidationMessageFor(model => model.Website[i].Title)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Website[i].Owner)
+                        @Html.TextBoxFor(model => model.Website[i].Owner, new { @class = "form-control", @placeholder = "Omanik", @Value = "eraisik" })
+                        @Html.ValidationMessageFor(model => model.Website[i].Owner)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Website[i].URL)
+                        @Html.TextBoxFor(model => model.Website[i].URL, new { @class = "form-control", @placeholder = "URL" })
+                        @Html.ValidationMessageFor(model => model.Website[i].URL)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Website[i].Description)
+                        @Html.TextAreaFor(model => model.Website[i].Description, new { @class = "form-control", @placeholder = "Kirjeldus" })
+                        @Html.ValidationMessageFor(model => model.Website[i].Description)
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 form-group">
+                            @Html.LabelFor(model => model.Website[i].Category)
+                            @Html.EnumDropDownListFor(model => model.Website[i].Category, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Website[i].Category)
+                        </div>
+                        <div class="col-xs-6 form-group">
+                            @Html.LabelFor(model => model.Website[i].Score)
+                            @Html.TextBoxFor(model => model.Website[i].Score, new { @class = "form-control", @type = "range", @value = "5", @min = "1", @max = "10" })
+                            @Html.ValidationMessageFor(model => model.Website[i].Score)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+
+    <textarea id="count" name="count" class="hidden">@count</textarea>
+    <input id="done" name="done" type="checkbox" value="true" class="hidden" />
+
+    <div id="form-buttons">
+        <input id="send-form" class="btn btn-success btn-custom" value="Saada" />
+        <input type="reset" class="btn btn-danger btn-custom" value="Puhasta väljad" />
+
+        <div class="pull-right">
+            <input id="add-website" class="btn btn-success btn-custom" value="Lisa veebilehe vorm" />
+            <input id="remove-website" class="btn btn-danger btn-custom" value="Eemalda viimane vorm" />
+        </div>
+    </div>
+
+    <br />
+}

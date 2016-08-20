@@ -6,7 +6,7 @@
     <title>@ViewBag.Title - Legend of Zelda</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/Content/custom")
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,23 +17,31 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Legend of Zelda", "Form", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Lisa oma lemmikud", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Kuva trendikad lehed", "About", "Home")</li>
+                    <li>@Html.ActionLink("Lisa oma lemmikud", "Form", "Home")</li>
+                    <li>@Html.ActionLink("Kuva trendikad lehed", "Display", "Home")</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container container-bg">
         @RenderBody()
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/custom")
     @RenderSection("scripts", required: false)
+
+    <!-- date picker -->
+    <script type="text/javascript" src="~/Scripts/custom.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+
+    <!-- data tables -->
+    <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 </body>
 </html>
